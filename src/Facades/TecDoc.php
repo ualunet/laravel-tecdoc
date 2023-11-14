@@ -2,8 +2,13 @@
 
 namespace Composite\TecDoc\Facades;
 
+use Composite\TecDoc\Services\Articles;
+use Composite\TecDoc\Services\Manufacturers;
+use Composite\TecDoc\Services\ModelSeries;
+use Composite\TecDoc\Services\Vehicles;
 use Illuminate\Support\Facades\Facade;
 use Composite\TecDoc\Gateway;
+use RuntimeException;
 
 /**
  * @method static array get(string $uri, array $payload = [])
@@ -24,7 +29,7 @@ class TecDoc extends Facade
      *
      * @return string
      *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     protected static function getFacadeAccessor(): string
     {

@@ -101,21 +101,27 @@ class Gateway
     {
         $defaultOptions = [
             'headers' => [
-                'Accept' => 'application/json',
-                'X-API-KEY' => $this->apiKey
+                'Accept' => 'application/json'
+            ],
+            'query' => [
+                'token' => $this->apiKey
             ],
         ];
 
         $response = $this->client->request($method, $uri, array_merge($defaultOptions, $payload));
 
-        if (json_decode($response->getBody(), true)["status"]) {
-            if(json_decode($response->getBody(), true)["status"] != 200){
-                throw new Exception(json_decode($response->getBody(), true)["statusText"]);
-            } else if(isset(json_decode($response->getBody(), true)["data"]) &&  json_decode($response->getBody(), true)["data"] == ""){
+        if ($response->getStatusCode() == 200) {
+            $bodyArray = json_decode($response->getBody(), true);
+            $bodyArray = $bodyArray['response'] ?? $bodyArray;
+            if(isset($bodyArray['status']) && $bodyArray['status'] !== 200){
+                throw new Exception("TecDoc request failed with message {$bodyArray['statusText']}");
+            }elseif(isset($bodyArray['data']) &&  $bodyArray['data'] == ""){
                 throw new Exception("Empty response");
             }
+        }else{
+            throw new Exception("HTTP request failed with code {$response->getStatusCode()}");
         }
             
-        return json_decode($response->getBody(), true);
+        return $bodyArray;
     }
 }

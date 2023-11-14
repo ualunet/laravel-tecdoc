@@ -11,7 +11,7 @@ return [
     |
     */
 
-    'service_url' => env('TEC_DOC_SERVICE_URL', "https://webservice.tecalliance.services/pegasus-3-0/services/TecdocToCatDLB.jsonEndpoint"),
+    'service_url' => env('TEC_DOC_SERVICE_URL', "https://wsprofi.tecdoc-api.site/api/Search"),
 
     /*
     |--------------------------------------------------------------------------
